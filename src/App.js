@@ -51,19 +51,27 @@ const initialTasks = [
         status: 'Done',
         priority: '3',
     },
+    {
+        id: 6,
+        name: 'Learn Mongo DB',
+        description: 'Some info about learn Mongo DB',
+        status: 'Todo',
+        priority: '3',
+    },
 ]
 
 
 function App() {
+    
     const [logoClass, setLogoClass] = useState("animate__flipOutY animate__animated animate__slower")
     const [tasks, setTasks] = useState(initialTasks)
+    
     const logoHandler = () => {
         setLogoClass("animate__flipInY animate__animated animate__slower")
         setTimeout(() => {
             setLogoClass("animate__flipOutY animate__animated animate__slower animate")
         }, 20000)
     }
-    
     
     return (
         <Router>

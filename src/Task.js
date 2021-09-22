@@ -23,11 +23,12 @@ function Task(props) {
         
     }
     return (
+        <div className='animate__fadeIn animate__animated '>
         <div className={taskClassName}>
             <div className="title">
                 <h4> {props.task.name} </h4>
                 <button className="title-menu"
-                        onClick={(e)=>setEdit(!edit)} >
+                        onClick={()=>setEdit(!edit)} >
                     <img src={dots} alt="dots"/>
                 </button>
                 {
@@ -63,6 +64,7 @@ function Task(props) {
                 </button>
             </div>
         
+        </div>
         </div>
     );
 }
