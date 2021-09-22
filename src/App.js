@@ -69,7 +69,7 @@ function App() {
     const logoHandler = () => {
         setLogoClass("animate__flipInY animate__animated animate__slower")
         setTimeout(() => {
-            setLogoClass("animate__flipOutY animate__animated animate__slower animate")
+            setLogoClass("animate__flipOutY animate__animated animate__slower")
         }, 20000)
     }
     
