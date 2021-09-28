@@ -2,7 +2,6 @@ import logo from './img/Logo.svg';
 import './App.css';
 import "animate.css"
 import 'bootstrap/dist/css/bootstrap.css'
-
 import {
     BrowserRouter as Router,
     Switch,
@@ -13,53 +12,6 @@ import {useState} from "react";
 import EditForm from "./EditForm";
 import CreateForm from "./CreateForm";
 import Home from "./Home";
-
-
-const initialTasks = [
-    {
-        id: 1,
-        name: 'Learn JS',
-        description: 'Some descr about learn JS',
-        status: 'Todo',
-        priority: '3',
-    },
-    {
-        id: 2,
-        name: 'Learn React',
-        description: 'Some descr about learn React',
-        status: 'In Progress',
-        priority: '3',
-    },
-    {
-        id: 3,
-        name: 'Learn Express',
-        description: 'Some descr about learn express',
-        status: 'In Progress',
-        priority: '3',
-    },
-    {
-        id: 4,
-        name: 'Learn HTML',
-        description: 'Some descr about learn HTML',
-        status: 'In Progress',
-        priority: '3',
-    },
-    {
-        id: 5,
-        name: 'Learn CSS',
-        description: 'Some descr about learn CSS',
-        status: 'Done',
-        priority: '3',
-    },
-    {
-        id: 6,
-        name: 'Learn Mongo DB',
-        description: 'Some info about learn Mongo DB',
-        status: 'Todo',
-        priority: '3',
-    },
-]
-
 
 function App() {
     

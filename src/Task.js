@@ -26,7 +26,7 @@ function Task(props) {
         <div className='animate__fadeIn animate__animated '>
         <div className={taskClassName}>
             <div className="title">
-                <h4> {props.task.name} </h4>
+                <h4> {task.name} </h4>
                 <button className="title-menu"
                         onClick={()=>setEdit(!edit)} >
                     <img src={dots} alt="dots"/>
@@ -68,6 +68,4 @@ function Task(props) {
         </div>
     );
 }
-
-
 export default Task;
