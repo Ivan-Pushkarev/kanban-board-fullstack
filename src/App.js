@@ -63,15 +63,14 @@ const initialTasks = [
 
 function App() {
     
-   // const [logoClass, setLogoClass] = useState("animate__flipOutY animate__animated animate__slower")
-   
-    //
-    // const logoHandler = () => {
-    //     setLogoClass("animate__flipInY animate__animated animate__slower")
-    //     setTimeout(() => {
-    //         setLogoClass("animate__flipOutY animate__animated animate__slower")
-    //     }, 20000)
-    // }
+   const [logoClass, setLogoClass] = useState("animate__flipOutY animate__animated animate__slower")
+
+    const logoHandler = () => {
+        setLogoClass("animate__flipInY animate__animated animate__slower")
+        setTimeout(() => {
+            setLogoClass("animate__flipOutY animate__animated animate__slower")
+        }, 20000)
+    }
     
     return (
         <Router>
@@ -84,8 +83,8 @@ function App() {
                     <div className="logo-border">
                         <div className="logo">
                             <a href="https://pasv.us/">
-                                <img src={logo} alt="logo"
-                                
+                                <img src={logo} alt="logo" onAnimationEnd={logoHandler}
+                                 className={logoClass}
                                 />
                             </a>
                         </div>
@@ -111,7 +110,6 @@ function App() {
                             <Home />
                         </Route>
                     </Switch>
-                
                 </div>
             </div>
         </Router>
