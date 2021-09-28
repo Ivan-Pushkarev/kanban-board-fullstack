@@ -6,7 +6,7 @@ function EditForm(props) {
     const {tasks, setTasks} = props
    
     const id = +props.match.params.taskId
-    const initialTask = tasks.filter(el=>el.id===id)[0]
+    const initialTask = tasks.find(el=>el.id===id)
     
     const [editTask, setEditTask] = useState(initialTask)
     
