@@ -1,15 +1,21 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {withRouter} from "react-router-dom";
 import DeleteModal from "./Modal";
+import axios from "axios";
 
 function EditForm(props) {    
-    const {tasks, setTasks} = props
+    
+    const id = props.match.params.taskId
+    const [editTask, setEditTask] = useState([])
+    useEffect(() => {
+        axios({
+            method: 'GET',
+            url: `https://fullstack-kanban-board.herokuapp.com/cards/${id}`
+        })
+            .then(res=> setEditTask(res.data))
+            .catch(err=>console.log(err))
+    }, [id]);
    
-    const id = +props.match.params.taskId
-    const initialTask = tasks.find(el=>el.id===id)
-    
-    const [editTask, setEditTask] = useState(initialTask)
-    
     return (
         <div className="container text-center">
             <h2>Edit Task Form</h2>
@@ -52,16 +58,12 @@ function EditForm(props) {
                         </div>
                         <DeleteModal color="primary"
                                      buttonLabel={'Update'}
-                                     setTasks={setTasks}
-                                     tasks={tasks}
                                      task={editTask}
                                      id={id}
                         />
-                      
                     </form>
                 </div>
             </div>
-        
         </div>
     );
 }

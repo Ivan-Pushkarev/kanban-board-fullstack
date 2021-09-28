@@ -12,13 +12,12 @@ function Column(props) {
         case 'Review': barClassName ="color-bar bg-warning"
             break
         default: barClassName = "color-bar bg-success"
-        
     }
+    
     return (
-        <>
+        <div>
             <h3>{props.status}</h3>
             <div className={barClassName}/>
-            
             {
                 tasks
                     .filter(el => el.status === status)
@@ -29,8 +28,7 @@ function Column(props) {
                                      onControlClick={onControlClick}/>
                     )
             }
-        
-        </>
+        </div>
     );
 }
 

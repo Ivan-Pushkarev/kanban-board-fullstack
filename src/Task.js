@@ -1,6 +1,6 @@
 import dots from './img/pngwing.com.png'
 import {useState} from "react";
-import DeleteModal from "./Modal";
+import EditDeleteModal from "./Modal";
 import {useHistory} from "react-router-dom";
 
 function Task(props) {
@@ -34,8 +34,8 @@ function Task(props) {
                 {
                     edit && <div className="title-pop-up-menu">
                             <button className="btn btn-primary"
-                            onClick={()=>{history.push(`/edit/${task.id}`)}}>Edit</button>
-                            <DeleteModal  color="danger"
+                            onClick={()=>{history.push(`/edit/${task._id}`)}}>Edit</button>
+                            <EditDeleteModal  color="danger"
                                           buttonLabel={'Delete'}
                                           onControlClick={onControlClick}
                                           task={task}
@@ -50,17 +50,17 @@ function Task(props) {
             </div>
             <div className="button-group">
                 <button disabled={status === 'Todo'}
-                        onClick={() => onControlClick(task.id, 'left')}> ◀
+                        onClick={() => onControlClick(task._id, 'left')}> ◀
                 </button>
                 <button disabled={task.priority === '4'}
-                        onClick={() => onControlClick(task.id, 'up')}>▲
+                        onClick={() => onControlClick(task._id, 'up')}>▲
                 </button>
                 
                 <button disabled={task.priority === '1'}
-                        onClick={() => onControlClick(task.id, 'down')}>▼
+                        onClick={() => onControlClick(task._id, 'down')}>▼
                 </button>
                 <button disabled={status === 'Done'}
-                        onClick={() => props.onControlClick(task.id, 'right')}>▶
+                        onClick={() => props.onControlClick(task._id, 'right')}>▶
                 </button>
             </div>
         

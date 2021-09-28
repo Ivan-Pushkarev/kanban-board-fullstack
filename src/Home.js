@@ -1,35 +1,63 @@
 import Column from "./Column";
 import {withRouter} from "react-router-dom";
+import {useEffect, useState} from "react";
+import axios from 'axios'
+
 const statuses = ['Todo', 'In Progress', 'Review', 'Done']
 
-function Home(props) {
+function Home() {
     
-    const {tasks, setTasks} = props
+    const [tasks, setTasks] = useState([])
+    
+    async function getAllCards() {
+        try {
+            const res = await axios({
+                method: 'GET',
+                url: 'https://fullstack-kanban-board.herokuapp.com/cards'
+            })
+            setTasks(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    
+    useEffect(() => {
+       getAllCards()
+    }, []);
+    
     const onControlClick = (id, action) => {
-        let newTasks
-        switch (action){
+        const editTask = tasks.find(el => el._id === id)
+        console.log('Edit task', editTask)
+        let method = "PATCH"
+        let updatedTask
+        switch (action) {
             case 'left':
-                newTasks = tasks.map(el=> el.id===id? {...el, status: statuses[statuses.indexOf(el.status)-1]}: el)
-                setTasks(newTasks)
+                updatedTask = {...editTask, status: statuses[statuses.indexOf(editTask.status) - 1]}
                 break
             case 'right':
-                newTasks = tasks.map(el=> el.id===id? {...el, status: statuses[statuses.indexOf(el.status)+1]}: el)
-                setTasks(newTasks)
+                updatedTask = {...editTask, status: statuses[statuses.indexOf(editTask.status) + 1]}
                 break
             case 'up':
-                newTasks = tasks.map(el=> el.id===id? {...el, priority: String(+el.priority+1)}: el)
-                setTasks(newTasks)
+                updatedTask = {...editTask, priority: String(+editTask.priority + 1)}
                 break
             case 'down':
-                newTasks = tasks.map(el=> el.id===id? {...el, priority: String(+el.priority-1)}: el)
-                setTasks(newTasks)
+                updatedTask = {...editTask, priority: String(+editTask.priority - 1)}
                 break
             case 'delete':
-                newTasks = tasks.filter(el=>el.id!==id)
-                setTasks(newTasks)
+                method = "DELETE"
                 break
-            
         }
+        console.log('Updated task', updatedTask)
+        axios({
+            method,
+            url: `https://fullstack-kanban-board.herokuapp.com/cards/${id}`,
+            data: updatedTask
+        })
+            .then(res => {
+                console.log(res)
+                getAllCards()
+            })
+            .catch(err => console.log(err))
     };
     
     return (

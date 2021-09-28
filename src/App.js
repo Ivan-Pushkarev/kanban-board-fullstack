@@ -63,15 +63,15 @@ const initialTasks = [
 
 function App() {
     
-    const [logoClass, setLogoClass] = useState("animate__flipOutY animate__animated animate__slower")
-    const [tasks, setTasks] = useState(initialTasks)
-    
-    const logoHandler = () => {
-        setLogoClass("animate__flipInY animate__animated animate__slower")
-        setTimeout(() => {
-            setLogoClass("animate__flipOutY animate__animated animate__slower")
-        }, 20000)
-    }
+   // const [logoClass, setLogoClass] = useState("animate__flipOutY animate__animated animate__slower")
+   
+    //
+    // const logoHandler = () => {
+    //     setLogoClass("animate__flipInY animate__animated animate__slower")
+    //     setTimeout(() => {
+    //         setLogoClass("animate__flipOutY animate__animated animate__slower")
+    //     }, 20000)
+    // }
     
     return (
         <Router>
@@ -84,8 +84,9 @@ function App() {
                     <div className="logo-border">
                         <div className="logo">
                             <a href="https://pasv.us/">
-                                <img src={logo} alt="logo" onAnimationEnd={logoHandler}
-                                     className={logoClass}/>
+                                <img src={logo} alt="logo"
+                                
+                                />
                             </a>
                         </div>
                     </div>
@@ -101,13 +102,13 @@ function App() {
                     </div>
                     <Switch>
                         <Route path="/create">
-                            <CreateForm tasks={tasks} setTasks={setTasks}/>
+                            <CreateForm />
                         </Route>
                         <Route path="/edit/:taskId">
-                            <EditForm tasks={tasks} setTasks={setTasks}/>
+                            <EditForm />
                         </Route>
                         <Route path="/">
-                            <Home tasks={tasks} setTasks={setTasks}/>
+                            <Home />
                         </Route>
                     </Switch>
                 
