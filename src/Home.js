@@ -27,7 +27,6 @@ function Home() {
     
     const onControlClick = (id, action) => {
         const editTask = tasks.find(el => el._id === id)
-        console.log('Edit task', editTask)
         let method = "PATCH"
         let updatedTask
         switch (action) {
@@ -46,8 +45,8 @@ function Home() {
             case 'delete':
                 method = "DELETE"
                 break
+            default: console.log('wrong action')
         }
-        console.log('Updated task', updatedTask)
         axios({
             method,
             url: `https://fullstack-kanban-board.herokuapp.com/cards/${id}`,
