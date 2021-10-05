@@ -15,14 +15,14 @@ function Column(props) {
     }
     
     return (
-        <div>
+        <div className="col-3">
             <h3>{props.status}</h3>
             <div className={barClassName}/>
             {
                 tasks
                     .filter(el => el.status === status)
                     .sort((a, b) => +b.priority- +a.priority )
-                    .map(el => <Task key={el.id}
+                    .map(el => <Task key={el._id}
                                      task={el}
                                      status={status}
                                      onControlClick={onControlClick}/>

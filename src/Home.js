@@ -62,11 +62,11 @@ function Home() {
     return (
         <div className="row">
             {
-                statuses.map(el => <div className="col-3" key={el}>
-                    <Column status={el}
-                            tasks={tasks}
-                            onControlClick={onControlClick}/>
-                </div>)
+                statuses.map(el => <Column key={el}
+                                           status={el}
+                                           tasks={tasks}
+                                           onControlClick={onControlClick}/>
+               )
             }
         </div>
     );
