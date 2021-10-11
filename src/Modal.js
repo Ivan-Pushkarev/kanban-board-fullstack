@@ -1,31 +1,21 @@
 import {useState} from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import {useHistory} from "react-router-dom";
-import axios from "axios";
+import {connect} from "react-redux";
+import {deleteSelectedTask, updateSelectedTask} from "./redux/actions";
 
 const EditDeleteModal = (props) => {
     
-    const {buttonLabel, onControlClick, task, color, id} = props;
+    const {buttonLabel, task, color, deleteSelectedTask} = props;
     const [modal, setModal] = useState(false)
     let history = useHistory()
-    const toggle = () => setModal(!modal);
+    const toggle = () => setModal(prev=>!prev);
     const title = buttonLabel === 'Delete' ? 'Are you sure you want to delete this task?' :
         'Are you sure you want to update this task?'
     const yesButtonHandler = () => {
         if (buttonLabel === 'Delete') {
-            onControlClick(task._id, 'delete')
-        } else {
-            axios({
-                method: "PATCH",
-                url: `https://fullstack-kanban-board.herokuapp.com/cards/${id}`,
-                data: task
-            })
-                .then(res=> {
-                    console.log(res)
-                    history.push('/')
-                })
-                .catch(err => console.log(err))
-        }
+            deleteSelectedTask(task._id)
+        } else updateSelectedTask(task._id, task, history)
         toggle()
     }
     
@@ -47,4 +37,4 @@ const EditDeleteModal = (props) => {
     );
 }
 
-export default EditDeleteModal;
+export default connect(null,{deleteSelectedTask, updateSelectedTask})(EditDeleteModal);

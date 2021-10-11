@@ -2,7 +2,7 @@ import Task from './Task';
 
 function Column(props) {
     
-    const {tasks, status, onControlClick } = props
+    const {tasks, status} = props
     let barClassName
     switch(status) {
         case 'Todo': barClassName ="color-bar bg-secondary"
@@ -13,7 +13,6 @@ function Column(props) {
             break
         default: barClassName = "color-bar bg-success"
     }
-    
     return (
         <div className="col-3">
             <h3>{props.status}</h3>
@@ -24,13 +23,9 @@ function Column(props) {
                     .sort((a, b) => +b.priority- +a.priority )
                     .map(el => <Task key={el._id}
                                      task={el}
-                                     status={status}
-                                     onControlClick={onControlClick}/>
-                    )
+                                     status={status}/>)
             }
         </div>
     );
 }
-
-
 export default Column;

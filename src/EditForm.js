@@ -59,7 +59,6 @@ function EditForm(props) {
                         <DeleteModal color="primary"
                                      buttonLabel={'Update'}
                                      task={editTask}
-                                     id={id}
                         />
                     </form>
                 </div>
