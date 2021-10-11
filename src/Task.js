@@ -11,6 +11,9 @@ function Task(props) {
     const [edit, setEdit] = useState(false)
     let history = useHistory()
     
+    const closeEditMode = () => {
+        setEdit(false)
+    }
     let taskClassName
     switch (status) {
         case 'Todo':
@@ -63,6 +66,7 @@ function Task(props) {
                             <EditDeleteModal color="danger"
                                              buttonLabel={'Delete'}
                                              task={task}
+                                             closeEditMode={closeEditMode}
                             />
                         </div>
                     }

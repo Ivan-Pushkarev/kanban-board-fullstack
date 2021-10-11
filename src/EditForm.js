@@ -1,21 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {withRouter} from "react-router-dom";
+import React, {useEffect} from 'react';
+import {useHistory, withRouter} from "react-router-dom";
 import DeleteModal from "./Modal";
-import axios from "axios";
+import {connect} from "react-redux";
+import {editFormController, taskGetById} from "./redux/actions";
 
 function EditForm(props) {    
-    
+    const {editFormController, taskGetById, task} = props
     const id = props.match.params.taskId
-    const [editTask, setEditTask] = useState([])
-    useEffect(() => {
-        axios({
-            method: 'GET',
-            url: `https://fullstack-kanban-board.herokuapp.com/cards/${id}`
-        })
-            .then(res=> setEditTask(res.data))
-            .catch(err=>console.log(err))
-    }, [id]);
+    let history = useHistory()
    
+    useEffect(() => {
+        taskGetById(id)
+    }, [id]);
+    
+    const onChangeHandler = (e) => {
+        editFormController(e.target.name, e.target.value)
+    }
+    
     return (
         <div className="container text-center">
             <h2>Edit Task Form</h2>
@@ -24,21 +25,21 @@ function EditForm(props) {
                     <form className="form-inline">
                         <div className="mb-3 ">
                             <label htmlFor="name" className="form-label">Task Name</label>
-                            <input type="text" className="form-control" id="name"
-                                   value={editTask.name}
-                                   onChange={(e) => setEditTask({...editTask, name:e.target.value})}/>
+                            <input type="text" className="form-control" id="name" name="name"
+                                   value={task.name}
+                                   onChange={onChangeHandler}/>
                         </div>
                         <div className="mb-3 d-flex flex-column align-content-end">
                             <label htmlFor="description" className="form-label">Task Description</label>
-                            <input type="text" className="form-control" id="description"
-                                   value={editTask.description}
-                                   onChange={(e) => setEditTask({...editTask, description:e.target.value})}/>
+                            <input type="text" className="form-control" id="description" name="description"
+                                   value={task.description}
+                                   onChange={onChangeHandler}/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="priority" className="form-label">Task priority</label>
-                            <select className="form-select " id="priority"
-                                    value={editTask.priority}
-                                    onChange={(e) => setEditTask({...editTask, priority:e.target.value})}>
+                            <select className="form-select " id="priority" name="priority"
+                                    value={task.priority}
+                                    onChange={onChangeHandler}>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
@@ -47,9 +48,9 @@ function EditForm(props) {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="status" className="form-label">Task status</label>
-                            <select className="form-select " id="status"
-                                    value={editTask.status}
-                                    onChange={(e) => setEditTask({...editTask, status:e.target.value})}>
+                            <select className="form-select " id="status" name="status"
+                                    value={task.status}
+                                    onChange={onChangeHandler}>
                                 <option value="Todo">Todo</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Review">Review</option>
@@ -58,7 +59,8 @@ function EditForm(props) {
                         </div>
                         <DeleteModal color="primary"
                                      buttonLabel={'Update'}
-                                     task={editTask}
+                                     task={task}
+                                     router={history}
                         />
                     </form>
                 </div>
@@ -66,5 +68,8 @@ function EditForm(props) {
         </div>
     );
 }
+const mapStateToProps = state => ({
+    task: state.selectedTask
+})
 
-export default withRouter(EditForm);
+export default withRouter(connect(mapStateToProps, {editFormController, taskGetById})(EditForm));

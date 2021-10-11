@@ -9,7 +9,7 @@ function Home(props) {
     
     useEffect(() => {
        tasksGetAll()
-    }, [tasksGetAll]);
+    }, []);
    
     return (
         <div className="row">

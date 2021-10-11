@@ -4,7 +4,12 @@ import thunk from "redux-thunk";
 const initialState = {
     tasks: [],
     statuses: ['Todo', 'In Progress', 'Review', 'Done'],
-    selectedTask: {}
+    selectedTask: {
+        name: '',
+        description: '',
+        priority: '1',
+        status: 'Todo'
+    }
 }
 const reducer= (state=initialState, action)=>{
     switch(action.type){
@@ -12,6 +17,8 @@ const reducer= (state=initialState, action)=>{
             return {...state, tasks: action.payload}
         case 'TASK_GET_BY_ID':
             return {...state, selectedTask: action.payload}
+        case 'EDIT_FORM_HANDLER':
+            return {...state, selectedTask: {...state.selectedTask, [action.payload.name]: action.payload.value}}
         default: return state
     }
 }

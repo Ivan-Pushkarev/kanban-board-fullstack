@@ -16,7 +16,6 @@ export function tasksGetAll() {
     }
 }
 
-
 export function taskGetById(id) {
     return (dispatch) => {
         API.get(`/${id}`)
@@ -27,15 +26,16 @@ export function taskGetById(id) {
                 })
             })
             .catch(() => {
-                console.log('Tasks get all error')
+                console.log('Tasks get by ID error')
             })
     }
 }
-export function createTask(task) {
+
+export function createTask(task, router) {
     return () => {
         API.post('/', task)
             .then(() => {
-                tasksGetAll()
+                router.push('/')
             })
             .catch(() => {
                 console.log("Task wasn't created")
@@ -44,11 +44,11 @@ export function createTask(task) {
 }
 
 export function updateSelectedTask(id, task, router) {
-    return () => {
+    return (dispatch) => {
         API.patch(`/${id}`, task)
             .then(() => {
-                tasksGetAll()
-                if(router) router.push('/')
+                dispatch(tasksGetAll())
+                if(router.length) router.push('/')
             })
             .catch(() => {
                 console.log("Task wasn't updated")
@@ -57,13 +57,21 @@ export function updateSelectedTask(id, task, router) {
 }
 
 export function deleteSelectedTask(id) {
-    return () => {
+    return (dispatch) => {
         API.delete(`/${id}`)
             .then(() => {
-                tasksGetAll()
+                dispatch(tasksGetAll())
             })
             .catch(() => {
                 console.log("Task wasn't deleted")
             })
     }
 }
+
+export function editFormController(name, value) {
+    return (dispatch) => dispatch ({
+        type: 'EDIT_FORM_HANDLER',
+        payload: {name, value}
+    })
+}
+

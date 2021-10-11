@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import axios from "axios";
 import {useHistory, withRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import {createTask} from "./redux/actions";
 
-function CreateForm() {
+function CreateForm(props) {
+    const {createTask} = props
     const emptyTask = {
         name: '',
         description: '',
@@ -11,18 +13,14 @@ function CreateForm() {
     }
     const [newTask, setNewTask] = useState(emptyTask)
     let history = useHistory()
+   
     const submitButtonHandler = (event) => {
         event.preventDefault()
-        axios({
-            method: 'POST',
-            url: 'https://fullstack-kanban-board.herokuapp.com/cards',
-            data: newTask
-        })
-            .then(res => {
-                console.log(res)
-                history.push('/')
-            })
-            .catch(err => console.log(err))
+        createTask(newTask, history)
+    }
+    
+    const onChangeHandler = (e) => {
+        setNewTask({...newTask, [e.target.name]: e.target.value})
     }
     
     return (
@@ -33,21 +31,21 @@ function CreateForm() {
                     <form className="form-inline">
                         <div className="mb-3 ">
                             <label htmlFor="name" className="form-label">Task Name</label>
-                            <input type="text" className="form-control" id="name"
+                            <input type="text" className="form-control" id="name" name="name"
                                    value={newTask.name}
-                                   onChange={(e) => setNewTask({...newTask, name: e.target.value})}/>
+                                   onChange={onChangeHandler}/>
                         </div>
                         <div className="mb-3 d-flex flex-column align-content-end">
                             <label htmlFor="description" className="form-label">Task Description</label>
-                            <input type="text" className="form-control" id="description"
+                            <input type="text" className="form-control" id="description" name="description"
                                    value={newTask.description}
-                                   onChange={(e) => setNewTask({...newTask, description: e.target.value})}/>
+                                   onChange={onChangeHandler}/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="priority" className="form-label">Task priority</label>
-                            <select className="form-select " id="priority"
+                            <select className="form-select " id="priority" name="priority"
                                     value={newTask.priority}
-                                    onChange={(e) => setNewTask({...newTask, priority: e.target.value})}>
+                                    onChange={onChangeHandler}>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
@@ -63,4 +61,4 @@ function CreateForm() {
     );
 }
 
-export default withRouter(CreateForm);
+export default withRouter(connect(null, {createTask})(CreateForm));

@@ -3,20 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, BrowserRouter } from "react-router-dom";
+import {BrowserRouter as Router, BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./redux/store";
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Provider store={store}>
+    <React.Fragment>
         <BrowserRouter>
             <Router>
-                <App/>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
             </Router>
         </BrowserRouter>
-        </Provider>
-    </React.StrictMode>,
+    </React.Fragment>,
     document.getElementById('root')
 );
 
