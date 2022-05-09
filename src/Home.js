@@ -1,30 +1,24 @@
 import Column from "./Column";
-import {withRouter} from "react-router-dom";
 import {useEffect} from "react";
-import {connect} from "react-redux";
-import {tasksGetAll} from "./redux/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {taskGetAll} from "./redux/actionCreators";
 
-function Home(props) {
-    const {tasks, statuses, tasksGetAll} = props
-    
+function Home() {
+    const dispatch= useDispatch()
+    const tasks = useSelector(state=> state?.task.tasks)
+    const statuses = useSelector(state=> state?.task.statuses)
+
     useEffect(() => {
-       tasksGetAll()
-    }, []);
+        dispatch(taskGetAll())
+    }, [dispatch]);
    
     return (
         <div className="row">
             {
-                statuses.map(el => <Column key={el}
-                                           status={el}
-                                           tasks={tasks}/>)
+                statuses.map(el => <Column key={el} status={el} tasks={tasks}/>)
             }
         </div>
     );
 }
 
-const mapStateToProps = state => ({
-    tasks: state.tasks,
-    statuses: state.statuses
-})
-
-export default withRouter(connect(mapStateToProps, {tasksGetAll})(Home));
+export default Home;

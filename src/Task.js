@@ -2,15 +2,19 @@ import dots from './img/pngwing.com.png'
 import {useState} from "react";
 import EditDeleteModal from "./Modal";
 import {useHistory} from "react-router-dom";
-import {connect} from "react-redux";
-import {updateSelectedTask} from "./redux/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {updateTask} from "./redux/actionCreators";
 
 
 function Task(props) {
-    const {task, status, statuses, updateSelectedTask} = props
+    const {task, status} = props
     const [edit, setEdit] = useState(false)
+
     let history = useHistory()
-    
+
+    const dispatch = useDispatch()
+    const statuses = useSelector(state=>state?.task.statuses)
+
     const closeEditMode = () => {
         setEdit(false)
     }
@@ -46,7 +50,7 @@ function Task(props) {
             default:
                 console.log('wrong action')
         }
-        updateSelectedTask(id, updatedTask, null)
+        dispatch(updateTask({id, task:updatedTask, router: null}))
     }
     
     return (
@@ -96,7 +100,4 @@ function Task(props) {
     );
 }
 
-const mapStateToProps = state => ({
-    statuses: state.statuses,
-})
-export default connect(mapStateToProps, {updateSelectedTask})(Task);
+export default Task;

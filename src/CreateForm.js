@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {useHistory, withRouter} from "react-router-dom";
-import {connect} from "react-redux";
-import {createTask} from "./redux/actions";
+import {useHistory} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {createTask} from "./redux/actionCreators";
 
-function CreateForm(props) {
-    const {createTask} = props
+function CreateForm() {
+
+    const dispatch = useDispatch()
+
     const emptyTask = {
         name: '',
         description: '',
@@ -16,7 +18,7 @@ function CreateForm(props) {
    
     const submitButtonHandler = (event) => {
         event.preventDefault()
-        createTask(newTask, history)
+        dispatch(createTask({task: newTask, router: history}))
     }
     
     const onChangeHandler = (e) => {
@@ -61,4 +63,4 @@ function CreateForm(props) {
     );
 }
 
-export default withRouter(connect(null, {createTask})(CreateForm));
+export default CreateForm;

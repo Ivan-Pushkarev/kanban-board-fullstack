@@ -1,27 +1,56 @@
-import {applyMiddleware, compose, createStore} from "redux";
-import thunk from "redux-thunk";
+import {configureStore, createSlice} from "@reduxjs/toolkit";
+import {createTask, deleteTask, getTaskById, taskGetAll, updateTask} from "./actionCreators";
 
-const initialState = {
-    tasks: [],
-    statuses: ['Todo', 'In Progress', 'Review', 'Done'],
-    selectedTask: {
-        name: '',
-        description: '',
-        priority: '1',
-        status: 'Todo'
+const taskSlice = createSlice({
+    name: 'task',
+    initialState: {
+        tasks: [],
+        statuses: ['Todo', 'In Progress', 'Review', 'Done'],
+        error: '',
+        selectedTask: {
+            name: '',
+            description: '',
+            priority: '1',
+            status: 'Todo'
+        },
+    },
+    reducers: {
+        editFormHandler: (state, action) => {
+            state.selectedTask[action.payload.name] = action.payload.value
+        }
+    },
+    extraReducers: {
+        [taskGetAll.fulfilled.type]: (state, action) => {
+            state.tasks = action.payload
+        },
+        [taskGetAll.rejected.type]: (state, action) => {
+            state.error = action.payload
+        },
+        [getTaskById.fulfilled.type]: (state, action) => {
+            state.selectedTask = action.payload
+        },
+        [getTaskById.rejected.type]: (state, action) => {
+            state.error = action.payload
+        },
+        [createTask.rejected.type]: (state, action) => {
+            state.error = action.payload
+        },
+        [updateTask.rejected.type]: (state, action) => {
+            state.error = action.payload
+        },
+        [deleteTask.rejected.type]: (state, action) => {
+            state.error = action.payload
+        }
     }
-}
-const reducer= (state=initialState, action)=>{
-    switch(action.type){
-        case 'TASKS_GET_ALL':
-            return {...state, tasks: action.payload}
-        case 'TASK_GET_BY_ID':
-            return {...state, selectedTask: action.payload}
-        case 'EDIT_FORM_HANDLER':
-            return {...state, selectedTask: {...state.selectedTask, [action.payload.name]: action.payload.value}}
-        default: return state
+})
+
+export const {editFormHandler} = taskSlice.actions
+const taskReducer = taskSlice.reducer
+
+const store = configureStore({
+    reducer: {
+        task: taskReducer
     }
-}
-const store = createStore(reducer, compose(applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+})
+
 export default store

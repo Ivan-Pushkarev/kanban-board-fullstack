@@ -1,22 +1,24 @@
 import {useState} from 'react';
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-import {connect} from "react-redux";
-import {deleteSelectedTask, updateSelectedTask} from "./redux/actions";
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
+import {useDispatch} from "react-redux";
+import {deleteTask, updateTask} from "./redux/actionCreators";
 
 const EditDeleteModal = (props) => {
     
-    const {buttonLabel, task, color, router, closeEditMode, deleteSelectedTask, updateSelectedTask} = props;
+    const {buttonLabel, task, color, router, closeEditMode} = props;
+    const dispatch= useDispatch()
     const [modal, setModal] = useState(false)
+
     const toggle = () => setModal(prev => !prev);
+
     const title = buttonLabel === 'Delete' ? 'Are you sure you want to delete this task?' :
         'Are you sure you want to update this task?'
     
     const yesButtonHandler = () => {
         if (buttonLabel === 'Delete') {
-            deleteSelectedTask(task._id)
+            dispatch( deleteTask(task._id))
         } else {
-            updateSelectedTask(task._id, task, router)
-            console.log('task', task)
+            dispatch(updateTask({id: task._id, task, router}))
         }
         toggle()
     }
@@ -42,4 +44,4 @@ const EditDeleteModal = (props) => {
     );
 }
 
-export default connect(null, {deleteSelectedTask, updateSelectedTask})(EditDeleteModal);
+export default EditDeleteModal;

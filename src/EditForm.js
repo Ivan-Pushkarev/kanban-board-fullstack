@@ -1,20 +1,23 @@
 import React, {useEffect} from 'react';
-import {useHistory, withRouter} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import DeleteModal from "./Modal";
-import {connect} from "react-redux";
-import {editFormController, taskGetById} from "./redux/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {editFormHandler} from "./redux/store";
+import {getTaskById} from "./redux/actionCreators";
 
-function EditForm(props) {    
-    const {editFormController, taskGetById, task} = props
-    const id = props.match.params.taskId
+function EditForm() {
+
+    const {taskId} = useParams()
+    const dispatch = useDispatch()
+    const task = useSelector(state=> state?.task.selectedTask)
     let history = useHistory()
-   
+
     useEffect(() => {
-        taskGetById(id)
-    }, [id]);
+        dispatch(getTaskById(taskId))
+    }, []);
     
     const onChangeHandler = (e) => {
-        editFormController(e.target.name, e.target.value)
+        dispatch(editFormHandler({name:e.target.name, value:e.target.value}))
     }
     
     return (
@@ -68,8 +71,5 @@ function EditForm(props) {
         </div>
     );
 }
-const mapStateToProps = state => ({
-    task: state.selectedTask
-})
 
-export default withRouter(connect(mapStateToProps, {editFormController, taskGetById})(EditForm));
+export default EditForm;
