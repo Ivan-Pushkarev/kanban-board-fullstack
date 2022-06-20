@@ -13,7 +13,6 @@ function Column(props) {
             break
         default: barClassName = "color-bar bg-success"
     }
-    
     return (
         <div className="col-3">
             <h3>{props.status}</h3>

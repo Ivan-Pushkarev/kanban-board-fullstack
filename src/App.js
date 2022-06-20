@@ -2,28 +2,13 @@ import logo from './img/Logo.svg';
 import './App.css';
 import "animate.css"
 import 'bootstrap/dist/css/bootstrap.css'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
-import {useState} from "react";
-import EditForm from "./EditForm";
-import CreateForm from "./CreateForm";
-import Home from "./Home";
+import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
+import EditForm from "./components/EditForm";
+import CreateForm from "./components/CreateForm";
+import Home from "./components/Home";
 
 function App() {
-    
-   const [logoClass, setLogoClass] = useState("animate__flipOutY animate__animated animate__slower")
 
-    const logoHandler = () => {
-        setLogoClass("animate__flipInY animate__animated animate__slower")
-        setTimeout(() => {
-            setLogoClass("animate__flipOutY animate__animated animate__slower")
-        }, 20000)
-    }
-    
     return (
         <Router>
             <div className="container todo px-0">
@@ -35,9 +20,7 @@ function App() {
                     <div className="logo-border">
                         <div className="logo">
                             <a href="https://pasv.us/">
-                                <img src={logo} alt="logo" onAnimationEnd={logoHandler}
-                                 className={logoClass}
-                                />
+                                <img src={logo} alt="logo"/>
                             </a>
                         </div>
                     </div>

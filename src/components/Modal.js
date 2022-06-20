@@ -1,30 +1,42 @@
 import {useState} from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import {useHistory} from "react-router-dom";
-import axios from "axios";
+import {useMutation} from "@apollo/client";
+import {UPDATE_TASK} from "../graphql/mutations";
+import {GET_ALL_CARDS} from "../graphql/queries";
 
 const EditDeleteModal = (props) => {
     
     const {buttonLabel, onControlClick, task, color, id} = props;
     const [modal, setModal] = useState(false)
+    const [updateTask] = useMutation(UPDATE_TASK, {
+        refetchQueries: [{query: GET_ALL_CARDS}]
+    })
+
     let history = useHistory()
+
     const toggle = () => setModal(!modal);
+
     const title = buttonLabel === 'Delete' ? 'Are you sure you want to delete this task?' :
         'Are you sure you want to update this task?'
+
     const yesButtonHandler = () => {
         if (buttonLabel === 'Delete') {
             onControlClick(task._id, 'delete')
         } else {
-            axios({
-                method: "PATCH",
-                url: `https://fullstack-kanban-board.herokuapp.com/cards/${id}`,
-                data: task
+            updateTask({
+                variables: {
+                    input: {
+                        id,
+                        name: task.name,
+                        description: task.description,
+                        status: task.status,
+                        priority: task.priority,
+                    }
+                }
             })
-                .then(res=> {
-                    console.log(res)
-                    history.push('/')
-                })
-                .catch(err => console.log(err))
+                .then(()=>  history.push('/'))
+                .catch(err=> console.log(err))
         }
         toggle()
     }
