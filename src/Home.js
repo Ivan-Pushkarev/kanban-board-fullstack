@@ -1,16 +1,14 @@
 import Column from "./Column";
-import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {taskGetAll} from "./redux/actionCreators";
+import {useSelector} from "react-redux";
+import {useGetAllCardsQuery} from "./redux/api";
 
 function Home() {
-    const dispatch= useDispatch()
-    const tasks = useSelector(state=> state?.task.tasks)
     const statuses = useSelector(state=> state?.task.statuses)
+    const {data: tasks, isLoading} = useGetAllCardsQuery()
 
-    useEffect(() => {
-        dispatch(taskGetAll())
-    }, [dispatch]);
+    if (isLoading) return <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+    </div>
    
     return (
         <div className="row">

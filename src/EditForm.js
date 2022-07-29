@@ -4,22 +4,25 @@ import DeleteModal from "./Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {editFormHandler} from "./redux/store";
 import {getTaskById} from "./redux/actionCreators";
+import {useGetCardByIdQuery} from "./redux/api";
 
 function EditForm() {
 
     const {taskId} = useParams()
     const dispatch = useDispatch()
-    const task = useSelector(state=> state?.task.selectedTask)
-    let history = useHistory()
 
-    useEffect(() => {
-        dispatch(getTaskById(taskId))
-    }, []);
-    
+    let history = useHistory()
+    const {data: task, isLoading}= useGetCardByIdQuery(taskId)
+
+    console.log('Task', task)
+
     const onChangeHandler = (e) => {
         dispatch(editFormHandler({name:e.target.name, value:e.target.value}))
     }
-    
+    if (isLoading) return <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+    </div>
+
     return (
         <div className="container text-center">
             <h2>Edit Task Form</h2>

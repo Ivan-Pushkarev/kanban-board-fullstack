@@ -1,12 +1,13 @@
 import {useState} from 'react';
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
-import {useDispatch} from "react-redux";
-import {deleteTask, updateTask} from "./redux/actionCreators";
+import {useDeleteCardMutation, useUpdateCardMutation} from "./redux/api";
 
 const EditDeleteModal = (props) => {
     
     const {buttonLabel, task, color, router, closeEditMode} = props;
-    const dispatch= useDispatch()
+
+    const [ updateCard ] = useUpdateCardMutation()
+    const [ deleteCard ] = useDeleteCardMutation()
     const [modal, setModal] = useState(false)
 
     const toggle = () => setModal(prev => !prev);
@@ -14,11 +15,12 @@ const EditDeleteModal = (props) => {
     const title = buttonLabel === 'Delete' ? 'Are you sure you want to delete this task?' :
         'Are you sure you want to update this task?'
     
-    const yesButtonHandler = () => {
+    const yesButtonHandler = async() => {
         if (buttonLabel === 'Delete') {
-            dispatch( deleteTask(task._id))
+            deleteCard(task._id)
         } else {
-            dispatch(updateTask({id: task._id, task, router}))
+            await updateCard({id: task._id, body: task})
+            router.push('/')
         }
         toggle()
     }

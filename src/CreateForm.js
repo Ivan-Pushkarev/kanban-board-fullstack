@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {createTask} from "./redux/actionCreators";
+import {useCreateCardMutation} from "./redux/api";
 
 function CreateForm() {
-
-    const dispatch = useDispatch()
+    const [createTask] = useCreateCardMutation()
 
     const emptyTask = {
         name: '',
@@ -13,12 +11,14 @@ function CreateForm() {
         priority: '1',
         status: 'Todo'
     }
+
     const [newTask, setNewTask] = useState(emptyTask)
-    let history = useHistory()
+    const history = useHistory()
    
-    const submitButtonHandler = (event) => {
+    const submitButtonHandler = async (event) => {
         event.preventDefault()
-        dispatch(createTask({task: newTask, router: history}))
+        await createTask(newTask)
+        history.push('/')
     }
     
     const onChangeHandler = (e) => {
@@ -58,7 +58,6 @@ function CreateForm() {
                     </form>
                 </div>
             </div>
-        
         </div>
     );
 }

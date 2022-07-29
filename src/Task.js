@@ -3,12 +3,13 @@ import {useState} from "react";
 import EditDeleteModal from "./Modal";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {updateTask} from "./redux/actionCreators";
+import {useUpdateCardMutation} from "./redux/api";
 
 
 function Task(props) {
     const {task, status} = props
     const [edit, setEdit] = useState(false)
+    const [ updateCard ] = useUpdateCardMutation()
 
     let history = useHistory()
 
@@ -50,7 +51,8 @@ function Task(props) {
             default:
                 console.log('wrong action')
         }
-        dispatch(updateTask({id, task:updatedTask, router: null}))
+        updateCard({id, body: updatedTask})
+        //dispatch(updateTask({id, task:updatedTask, router: null}))
     }
     
     return (

@@ -1,12 +1,11 @@
 import {configureStore, createSlice} from "@reduxjs/toolkit";
 import {createTask, deleteTask, getTaskById, taskGetAll, updateTask} from "./actionCreators";
+import { cardApi } from './api'
 
 const taskSlice = createSlice({
     name: 'task',
     initialState: {
-        tasks: [],
         statuses: ['Todo', 'In Progress', 'Review', 'Done'],
-        error: '',
         selectedTask: {
             name: '',
             description: '',
@@ -49,8 +48,10 @@ const taskReducer = taskSlice.reducer
 
 const store = configureStore({
     reducer: {
-        task: taskReducer
-    }
+        task: taskReducer,
+        [ cardApi.reducerPath ]: cardApi.reducer
+    },
+     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(cardApi.middleware)
 })
 
 export default store

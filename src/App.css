@@ -23,7 +23,7 @@ body {
 
 .header {
   color: white;
-  background: url("http://drivepremium.com/wp-content/themes/OpenDoor1.4/images/subtle_carbon.jpg");
+  background: url(img/subtle_carbon.jpg);
   width: 100%;
   padding: 15px 0 15px;
   display: flex;
@@ -39,7 +39,7 @@ body {
   height: 200px;
   left: 10%;
   border-radius: 100%;
-  background: url("http://drivepremium.com/wp-content/themes/OpenDoor1.4/images/subtle_carbon.jpg");
+  background: url(img/subtle_carbon.jpg);
   display: flex;
   justify-content: center;
   align-items: center;
