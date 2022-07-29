@@ -2,23 +2,21 @@ import dots from './img/pngwing.com.png'
 import {useState} from "react";
 import EditDeleteModal from "./Modal";
 import {useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {useUpdateCardMutation} from "./redux/api";
 
+const statuses = ['Todo', 'In Progress', 'Review', 'Done']
 
 function Task(props) {
     const {task, status} = props
     const [edit, setEdit] = useState(false)
-    const [ updateCard ] = useUpdateCardMutation()
+    const [updateCard] = useUpdateCardMutation()
 
     let history = useHistory()
-
-    const dispatch = useDispatch()
-    const statuses = useSelector(state=>state?.task.statuses)
 
     const closeEditMode = () => {
         setEdit(false)
     }
+
     let taskClassName
     switch (status) {
         case 'Todo':
@@ -33,6 +31,7 @@ function Task(props) {
         default:
             taskClassName = "task green"
     }
+
     const onControlClick = (id, action) => {
         let updatedTask
         switch (action) {
@@ -52,22 +51,23 @@ function Task(props) {
                 console.log('wrong action')
         }
         updateCard({id, body: updatedTask})
-        //dispatch(updateTask({id, task:updatedTask, router: null}))
     }
-    
+
     return (
         <div className='animate__fadeIn animate__animated '>
             <div className={taskClassName}>
                 <div className="title">
                     <h4> {task.name} </h4>
                     <button className="title-menu"
-                            onClick={() => setEdit(prev=>!prev)}>
+                            onClick={() => setEdit(prev => !prev)}>
                         <img src={dots} alt="dots"/>
                     </button>
                     {
                         edit && <div className="title-pop-up-menu">
                             <button className="btn btn-primary"
-                                    onClick={() => {history.push(`/edit/${task._id}`)}}>Edit
+                                    onClick={() => {
+                                        history.push(`/edit/${task._id}`)
+                                    }}>Edit
                             </button>
                             <EditDeleteModal color="danger"
                                              buttonLabel={'Delete'}
@@ -76,7 +76,7 @@ function Task(props) {
                             />
                         </div>
                     }
-                
+
                 </div>
                 <div className="description">
                     <span>{task.description}</span>
@@ -89,7 +89,7 @@ function Task(props) {
                     <button disabled={task.priority === '4'}
                             onClick={() => onControlClick(task._id, 'up')}>▲
                     </button>
-                    
+
                     <button disabled={task.priority === '1'}
                             onClick={() => onControlClick(task._id, 'down')}>▼
                     </button>

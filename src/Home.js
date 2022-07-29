@@ -1,9 +1,9 @@
 import Column from "./Column";
-import {useSelector} from "react-redux";
 import {useGetAllCardsQuery} from "./redux/api";
 
+const  statuses = ['Todo', 'In Progress', 'Review', 'Done']
+
 function Home() {
-    const statuses = useSelector(state=> state?.task.statuses)
     const {data: tasks, isLoading} = useGetAllCardsQuery()
 
     if (isLoading) return <div className="spinner-border text-primary" role="status">
