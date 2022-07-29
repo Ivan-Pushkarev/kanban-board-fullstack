@@ -8,8 +8,6 @@ function EditForm() {
     const {taskId} = useParams()
     const {data: task, isLoading} = useGetCardByIdQuery(taskId)
 
-    console.log('Task', task)
-
     if (isLoading) return <div className="spinner-border text-primary" role="status">
         <span className="visually-hidden">Loading...</span>
     </div>

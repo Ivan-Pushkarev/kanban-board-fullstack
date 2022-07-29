@@ -1,10 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
 export const cardApi = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000/cards'}),
     tagTypes: ['Cards'],
-    endpoints: (build) =>({
+    endpoints: (build) => ({
         getAllCards: build.query({
             query: () => '/',
             providesTags: ['Cards']
@@ -16,7 +16,7 @@ export const cardApi = createApi({
             })
         }),
         createCard: build.mutation({
-            query: ( body) => ({
+            query: (body) => ({
                 url: '/',
                 method: 'POST',
                 body
@@ -41,4 +41,10 @@ export const cardApi = createApi({
     })
 })
 
-export const { useGetAllCardsQuery, useUpdateCardMutation, useCreateCardMutation, useDeleteCardMutation, useGetCardByIdQuery } = cardApi
+export const {
+    useGetAllCardsQuery,
+    useUpdateCardMutation,
+    useCreateCardMutation,
+    useDeleteCardMutation,
+    useGetCardByIdQuery
+} = cardApi
